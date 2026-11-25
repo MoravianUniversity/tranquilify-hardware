@@ -1,0 +1,40 @@
+{
+    "layout": {
+        "hspace": "2.5mm",
+        "vspace": "2.5mm",
+        "rows": "2",
+        "cols": "2"
+    },
+    "tabs": {
+        "type": "fixed",
+        "vwidth": "1.25mm",
+        "hwidth": "1.25mm",
+        "vcount": "0",
+        "hcount": "2"
+    },
+    "cuts": {
+        "type": "mousebites",
+        "drill": "0.45mm",
+        "offset": "0.25mm"
+    },
+    "framing": {
+        "type": "frame",
+        "hspace": "2.5mm",
+        "vspace": "2.5mm"
+    },
+    "tooling": {
+        "type": "3hole",
+        "hoffset": "2.5mm",
+        "voffset": "2.5mm",
+        "size": "1.152mm"
+    },
+    "fiducials": {
+        "type": "3fid",
+        "hoffset": "5mm",
+        "voffset": "2.5mm",
+        "opening": "2mm"
+    },
+    "post": {
+        "millradius": "1mm"
+    }
+}

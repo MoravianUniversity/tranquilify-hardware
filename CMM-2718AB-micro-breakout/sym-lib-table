@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+
+  (lib (name "CMM-2718AB-breakout") (type "KiCad") (uri "${KIPRJMOD}/libraries/CMM-2718AB-breakout.kicad_sym") (options "") (descr "")))
