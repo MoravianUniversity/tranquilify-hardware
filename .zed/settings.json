@@ -1,0 +1,13 @@
+{
+  "context_servers": {
+    "konnect": {
+      "command": "/Users/bushj/Documents/KiCad/10.0/3rdparty/plugins/com_github_mixelpixx_konnect/bin/konnect",
+      "args": [],
+      "env": {
+        "kicad_cli": "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "kicad_binary": "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad",
+        "ipc_address": "ipc:///tmp/kicad/api.sock",
+      }
+    }
+  }
+}

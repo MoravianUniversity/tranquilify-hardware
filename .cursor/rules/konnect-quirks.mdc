@@ -1,0 +1,45 @@
+---
+description: Known quirks of the Konnect KiCad MCP tools. Read before building schematics.
+alwaysApply: true
+---
+
+# Konnect MCP quirks
+
+Add new entries here as they are discovered. Longer reference: `KICAD_KONNECT_GUIDE.md` in the repo root.
+
+1. `add_power_symbol` takes `power_net` (for example `"+5V"` or `"GND"`), not `lib_id`.
+   Passing `lib_id` fails with `invalid_argument: power_net missing`.
+2. KiCad editor lock: if the schematic is open in KiCad, every schematic write fails
+   (`stale_target`, `mutation_outcome_uncertain`, or `conflict` with "KiCad editor lock").
+   Ask the user to close the schematic editor before editing, and grep the file to confirm nothing was written before retrying.
+   PCB tools use live IPC, so the PCB editor may stay open.
+3. Schematic placement snaps to the 1.27 mm grid. Pick on-grid coordinates up front.
+4. No DNP-flag tool and no schematic text-delete tool. Convey DNP in the Value text (e.g. "(DNP)"),
+   or have the user set the attribute in KiCad. Delete text with `batch_delete` using its uuid.
+5. `batch_edit_schematic_components` requires `schematic` and `edits: [{reference, value?, footprint?, fields?}]`.
+   Custom fields are only created when `create_missing` is true.
+6. `rotate_schematic_component` takes an absolute rotation, not a delta.
+7. Power symbol orientation: rotation 0 points down, 90 extends right, 180 points up, 270 extends left.
+8. Wire crossings need no junction. Junctions are needed at T-connections and where 3 or more items meet.
+9. Wire-only nets get auto names like `Net-(J4-Pin_1)`. To keep stable PCB net names,
+   place a net label on one wire per net. Netlist names carry a `/` prefix.
+10. `add_schematic_component` supports `mirror` ('x'/'y') and `rotation`.
+    `Conn_01x04` at rotation 180 puts pins on the right. `Conn_02x03_Odd_Even` with mirror `y`
+    puts odd pins right of the origin and even pins left.
+11. `list_schematic_wires` returns wire uuids, which `batch_delete` accepts alongside references.
+12. Prefer batch tools (`batch_add_wire`, `batch_add_junction`, `batch_edit_schematic_components`,
+    `batch_delete`) over repeated single calls.
+13. `render_schematic_png` output is small. Use `check_schematic_overlaps` for overlap checks.
+14. Never edit `.kicad_*` files directly. Verify every change with readback, ERC and DRC.
+15. No PCB tool to move/resize footprint Reference/Value silk text. `edit_component` is
+    value-only; `list_board_footprint_graphics` omits property text. Use KiCad
+    Edit → Edit Text & Graphics Properties, Scripting Console (`SetFPRelativePosition`),
+    or Computer Use — not Konnect MCP.
+16. Always ask the user before starting PCB work. The user opens `*.kicad_pcb` in the
+    PCB editor for you; do not try to open or drive pcbnew yourself (Computer Use /
+    `launch_kicad_ui` alone is not enough, and this KiCad build’s IPC
+    `GetOpenDocuments` is often `AS_UNHANDLED`).
+17. Custom `create_symbol` pin angles: tip coordinates are the electrical ends.
+    Left-side tips use angle `0` (pin points right into the body), right-side `180`,
+    top `270`, bottom `90` — same as KiCad’s own library symbols. Using the opposite
+    angles leaves a visible gap between pin and body.
