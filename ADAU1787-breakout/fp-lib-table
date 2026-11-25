@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+
+  (lib (name "ADAU1787-breakout") (type "KiCad") (uri "${KIPRJMOD}/lib/ADAU1787-breakout.pretty") (options "") (descr "")))
